@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
-import RankCard from "./components/rank";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/Sidebar";
+import RankCard from "./components/rank";
+import GeminiPage from "./Pages/GeminiPage"; 
+import "./App.css";
 
 function App() {
   const [leaders, setLeaders] = useState([]);
@@ -30,22 +32,29 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <Navbar />
-      </header>
-      <div className="container">
-        <div className="left-side">
-          <h2>Leaderboard</h2>
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>Error: {error}</p>
-          ) : (
-            <RankCard leaders={leaders} />
-          )}
-        </div>
-        <Sidebar />
-        </div>
+      <Navbar />
+      <Routes>
+        <Route
+          path="/solo-leaderboard"
+          element={
+            <div className="container">
+              <div className="left-side">
+                <h2>Leaderboard</h2>
+                {loading ? (
+                  <p>Loading...</p>
+                ) : error ? (
+                  <p>Error: {error}</p>
+                ) : (
+                  <RankCard leaders={leaders} />
+                )}
+              </div>
+              <Sidebar />
+            </div>
+          }
+        />
+
+        <Route path="/gemini" element={<GeminiPage />} />
+      </Routes>
     </div>
   );
 }
