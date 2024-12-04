@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import "../App.css";
 import imageProfile from "../images/profile.jpeg";
 import imageLogo from "../images/logo.png";
@@ -10,96 +11,58 @@ const Navbar = () => {
     setMenuOpen(!menuOpen);
   };
 
+  const navLinks = [
+    { name: "Leaderboard", path: "/leaderboard" },
+    { name: "Quiz", path: "/quiz" },
+    { name: "Courses", path: "#" },
+    { name: "Code Playground", path: "#" },
+    { name: "Discuss", path: "#" },
+    { name: "Blog", path: "#" },
+  ];
+
   return (
     <header>
       <div className="logo">
         <img className="ada" src={imageLogo} alt="Logo" />
         <h1>sololearn</h1>
       </div>
-      
+
       <div className="nav-menu">
-        {!menuOpen ? (
+        <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle Menu">
           <svg
-            onClick={toggleMenu}
             xmlns="http://www.w3.org/2000/svg"
             height="24px"
-            viewBox="0 -960 960 960"
             width="24px"
             fill="#5f6368"
           >
-            <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+            <path
+              d={
+                menuOpen
+                  ? "m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+                  : "M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" 
+              }
+            />
           </svg>
-        ) : (
-          <svg
-            onClick={toggleMenu}
-            xmlns="http://www.w3.org/2000/svg"
-            height="24px"
-            viewBox="0 -960 960 960"
-            width="24px"
-            fill="#5f6368"
-          >
-            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-          </svg>
-        )}{" "}
+        </button>
       </div>
-      {menuOpen && (
-        <div className="nav-link">
+
+      {(menuOpen || window.innerWidth > 768) && (
+        <nav className="nav-link">
           <ul>
-            <li>
-              <a href="#">Leaderboard</a>
-            </li>
-            <li>
-              <a href="#">Courses</a>
-            </li>
-            <li>
-              <a href="#">Code Playground</a>
-            </li>
-            <li>
-              <a href="#">Discuss</a>
-            </li>
-            <li>
-              <a href="#">Blog</a>
-            </li>
+            {navLinks.map((link, index) => (
+              <li key={index}>
+                <Link to={link.path}>{link.name}</Link>
+              </li>
+            ))}
             <li>
               <button className="go-pro">Go PRO</button>
             </li>
             <li>
-              <p>465</p>
-            </li>
-            <li>
-              <img height="100px" src={imageProfile} alt="Profile" />
+              <img className="profile-image" src={imageProfile} alt="Profile" />
             </li>
           </ul>
-        </div>
+        </nav>
       )}
-      <nav className="navbar-icon">
-        <ul>
-          <li>
-            <a href="#">Leaderboard</a>
-          </li>
-          <li>
-            <a href="#">Courses</a>
-          </li>
-          <li>
-            <a href="#">Code Playground</a>
-          </li>
-          <li>
-            <a href="#">Discuss</a>
-          </li>
-          <li>
-            <a href="#">Blog</a>
-          </li>
-          <li>
-            <button className="go-pro">Go PRO</button>
-          </li>
-          <li>
-            <p>465</p>
-          </li>
-          <li>
-            <img src={imageProfile} alt="Profile" />
-          </li>
-        </ul>
-      </nav>
     </header>
   );
 };
