@@ -3,13 +3,15 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/navbar";
 import Sidebar from "./components/Sidebar";
 import RankCard from "./components/rank";
-import GeminiPage from "./Pages/GeminiPage"; 
+import Quiz from "./Pages/Quiz"; 
 import "./App.css";
 
 function App() {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [questions, setQuestions] = useState([]); 
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -28,6 +30,21 @@ function App() {
     };
 
     fetchLeaderboard();
+
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/questions");
+        if (!response.ok) {
+          throw new Error("Failed to fetch questions");
+        }
+        const data = await response.json();
+        setQuestions(data);
+      } catch (error) {
+        console.error("Error fetching questions:", error);
+      }
+    };
+
+    fetchQuestions();
   }, []);
 
   return (
@@ -35,7 +52,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route
-          path="/solo-leaderboard"
+          path="/leaderboard"
           element={
             <div className="container">
               <div className="left-side">
@@ -52,8 +69,10 @@ function App() {
             </div>
           }
         />
-
-        <Route path="/gemini" element={<GeminiPage />} />
+        <Route
+          path="/quiz"
+          element={<Quiz questions={questions} />}
+        />
       </Routes>
     </div>
   );
