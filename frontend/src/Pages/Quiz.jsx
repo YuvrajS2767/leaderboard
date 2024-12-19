@@ -144,7 +144,9 @@ const Quiz = () => {
   };
 
   return (
-    <div className="quiz-container">
+    <div
+      className={`quiz-container ${showResult ? "result-background" : ""}`}
+    >
       {!showResult ? (
         <div className="quiz-content">
           <div className="question-section">
@@ -154,12 +156,7 @@ const Quiz = () => {
             <span className="active-question-no">
               {currentQuestion + 1}/{questions.length}
             </span>
-            <div
-              style={{
-                fontSize: "1.5rem",
-                color: timerColor,
-              }}
-            >
+            <div className={`timer ${timerColor === "red" ? "red" : ""}`}>
               ⏱ {timer}s
             </div>
             <button onClick={onSkip}>Skip</button>
